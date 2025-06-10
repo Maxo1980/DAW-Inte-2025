@@ -31,11 +31,4 @@ export class EncuestasService {
         '/api/v1/encuestas/' + idEncuesta + '?codigo=' + codigo + '&tipo=' + tipo,
     );
  }
-
- test() {
-    this.traerEncuesta(1, 'codigo-test', CodigoTipoEnum.RESPUESTA).subscribe({
-        next: (res) => console.log(res),
-        error: (err) => console.log(err),
-    });
- }
 }
