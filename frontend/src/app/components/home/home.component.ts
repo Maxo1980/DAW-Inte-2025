@@ -5,10 +5,10 @@ import { ButtonModule } from 'primeng/button';
 import { RouterModule } from '@angular/router';
 
 @Component({
-    selector: 'app-comienzo',
+    selector: 'app-home',
     standalone: true,
     imports: [CommonModule, CardModule, ButtonModule, RouterModule],
-    templateUrl: './comienzo.component.html',
-    styleUrls: ['./comienzo.component.css'],
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.css'],
 })
-export class ComienzoComponent { }
+export class HomeComponent { }

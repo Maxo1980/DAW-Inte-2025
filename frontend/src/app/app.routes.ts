@@ -1,17 +1,17 @@
 import { Routes } from '@angular/router';
-import { ComienzoComponent } from './components/comienzo/comienzo.component';
+import { HomeComponent } from './components/home/home.component';
 import { CreacionEncuestaComponent } from './components/creacion-encuesta/creacion-encuesta.component';
 
 
 export const routes: Routes = [
     {
         path: '',
-        component: ComienzoComponent,
+        component: HomeComponent,
     },
-{
-path: 'creacion',
-component: CreacionEncuestaComponent,
-},
+    {
+        path: 'creacion',
+        component: CreacionEncuestaComponent,
+    },
     {
         path: '**',
         redirectTo: '',
