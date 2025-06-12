@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { v4 } from 'uuid';
 import { CodigoTipoEnum } from '../enums/codigo-tipo.enum';
+import * as PDFDocument from 'pdfkit';
 
 @Injectable()
 export class EncuestasService {
@@ -66,4 +67,34 @@ export class EncuestasService {
 
     return encuesta;
   }
+
+    async generarResumenPdf(id: number, codigo: string): Promise<Buffer> {
+  const encuesta = await this.obtenerEncuesta(id, codigo, CodigoTipoEnum.RESULTADOS);
+
+  const doc = new PDFDocument();
+  const buffers: Buffer[] = [];
+
+  doc.on('data', buffers.push.bind(buffers));
+  doc.on('end', () => {});
+
+  doc.fontSize(18).text(`Encuesta: ${encuesta.nombre}`, { underline: true });
+  doc.moveDown();
+
+  encuesta.preguntas.forEach((pregunta, index) => {
+    doc.fontSize(14).text(`${index + 1}. ${pregunta.texto}`);
+    pregunta.opciones.forEach(opcion => {
+      doc.fontSize(12).text(`- Opcion N ${opcion.numero} : ${opcion.texto}`);  
+    });
+    doc.moveDown();
+  });
+
+  doc.end();
+
+  return new Promise((resolve) => {
+    doc.on('end', () => {
+      const pdfData = Buffer.concat(buffers);
+      resolve(pdfData);
+    });
+  });
+}
 }
