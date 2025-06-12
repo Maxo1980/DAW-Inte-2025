@@ -1,10 +1,11 @@
 @import "primeicons/primeicons.css";
 
-body{
+body {
     margin: 0;
     height: 100vh;
     display: flex;
     justify-content: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
 }
 
 html {

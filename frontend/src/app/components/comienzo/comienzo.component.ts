@@ -1,15 +1,14 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
-import { SeccionComponent } from '../seccion/seccion.component';
-
+import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-comienzo',
-  imports: [ButtonModule, RouterModule, SeccionComponent],
-  templateUrl: './comienzo.component.html',
-  styleUrl: './comienzo.component.css'
+    selector: 'app-comienzo',
+    standalone: true,
+    imports: [CommonModule, CardModule, ButtonModule, RouterModule],
+    templateUrl: './comienzo.component.html',
+    styleUrls: ['./comienzo.component.css'],
 })
-export class ComienzoComponent {
-
-}
+export class ComienzoComponent { }
