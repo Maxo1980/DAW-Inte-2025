@@ -17,8 +17,9 @@
                     <p class="text-xs sm:text-sm my-auto text-wrap flex-1">
                         {{ pregunta.texto }} ({{ getTipoPreguntaPresentacion(pregunta.tipo) }})
                     </p>
-                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-text p-button-danger"
-                        (click)="confirmarEliminarPregunta(idx)" style="height: 2rem; width: 2rem;"></button>
+                    <button type="button" pButton pRipple icon="pi pi-trash"
+                        class="p-button-rounded p-button-text p-button-danger" (click)="confirmarEliminarPregunta(idx)"
+                        style="height: 2rem; width: 2rem;"></button>
                 </div>
                 @if (pregunta.opciones && pregunta.opciones.length > 0) {
                 <ul class="w-full mt-2">
