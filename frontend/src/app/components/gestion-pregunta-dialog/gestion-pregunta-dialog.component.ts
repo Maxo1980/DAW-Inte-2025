@@ -37,7 +37,6 @@ import { Select } from 'primeng/select';
         TextoErrorComponent,
         SeccionComponent,
         GestionOpcionDialogComponent,
-        Select
     ],
     templateUrl: './gestion-pregunta-dialog.component.html',
     styleUrl: './gestion-pregunta-dialog.component.css'
