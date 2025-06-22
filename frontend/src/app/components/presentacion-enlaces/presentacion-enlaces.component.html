@@ -1,0 +1,11 @@
+<h1>Encuesta creada con éxito</h1>
+<p>Comparta este enlace a quienes deban responder la encuesta</p>
+<input [value]="linkRespuesta" readonly />
+<button (click)="copiar(linkRespuesta)">Copiar</button>
+
+<p class="mt-4 text-danger">
+  Utilice este enlace para visualizar las respuestas recolectadas<br />
+  <strong>(Si pierde este enlace, no va a ser capaz de recuperar los datos)</strong>
+</p>
+<input [value]="linkResultados" readonly />
+<button (click)="copiar(linkResultados)">Copiar</button>
