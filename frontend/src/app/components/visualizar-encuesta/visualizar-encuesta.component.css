@@ -1,0 +1,7 @@
+.respuesta {
+    border-bottom: 1px solid #34d399;
+}
+
+.respuesta:last-child {
+    border-bottom: none;
+}

@@ -47,6 +47,7 @@ CREATE TABLE respuestas_abiertas (
 -- Tabla intermedia para respuestas de opción múltiple
 CREATE TABLE respuestas_opciones (
     id SERIAL PRIMARY KEY,
+    id_pregunta INT NOT NULL REFERENCES preguntas(id),
     id_respuesta INT NOT NULL REFERENCES respuestas(id),
     id_opcion INT NOT NULL REFERENCES opciones(id)
 );

@@ -1,0 +1,89 @@
+<div *ngIf="cargando">Cargando encuesta...</div>
+<div *ngIf="error" class="text-2xl pt-6">{{ error }}</div>
+
+<div *ngIf="!cargando && !error">
+
+    <ng-container [ngSwitch]="tipoVista">
+        <h1 class="text-3xl font-bold mb-4 mt-6 text-center">{{ nombreEncuesta }}</h1>
+        <form *ngSwitchCase="'RESPUESTA'" [formGroup]="formulario" (ngSubmit)="confirmarRespuesta()">
+            <div formArrayName="preguntas" class="mb-3">
+                <div *ngFor="let pregunta of preguntas.controls; let i = index" [formGroupName]="i"
+                    class="p-2 border rounded">
+                    <p class="font-bold">{{ pregunta.get('texto')?.value }}</p>
+
+                    <ng-container [ngSwitch]="pregunta.get('tipo')?.value">
+                        <div *ngSwitchCase="'OPCION_MULTIPLE_SELECCION_SIMPLE'">
+                            <div *ngFor="let opcion of pregunta.get('opciones')?.value; let j = index" class="mb-2">
+                                <p-radioButton [inputId]="'radio-' + i + '-' + j" [name]="'respuesta'"
+                                    [value]="opcion.texto" formControlName="respuesta"></p-radioButton>
+                                <label [for]="'radio-' + i + '-' + j" class="ml-2">{{ opcion.texto }}</label>
+                            </div>
+                        </div>
+                        <div *ngSwitchCase="'OPCION_MULTIPLE_SELECCION_MULTIPLE'">
+                            <div *ngFor="let opcion of pregunta.get('opciones')?.value; let j = index" class="mb-2">
+                                <p-checkbox value="New York" [inputId]="'checkbox-' + j"
+                                    (onChange)="onCheckboxChange(i, opcion.texto, $event)" />
+                                <label [for]="'checkbox-' + j" class="ml-2">{{ opcion.texto }}</label>
+
+                            </div>
+                        </div>
+                        <div *ngSwitchCase="'ABIERTA'">
+                            <textarea rows="5" cols="30" pTextarea formControlName="respuesta" variant="filled"
+                                autoResize="true"></textarea>
+                        </div>
+
+                        <div *ngSwitchDefault>
+                            <em>Tipo de pregunta no soportado</em>
+                        </div>
+
+                    </ng-container>
+                </div>
+            </div>
+            <button pButton type="submit" label="Enviar respuestas" class="w-full mb-8"></button>
+        </form>
+
+        <div *ngSwitchCase="'RESULTADOS'">
+            <p class="text-2xl font-bold mb-4 text-center">Resultados de la encuesta:</p>
+
+            <p-accordion>
+                <p-accordionTab *ngFor="let resultado of resultados; let i = index" [header]="'Respuesta #' + (i + 1)"
+                    class="mb-2 border-1 border-solid rounded-lg">
+                    <div *ngFor="let pregunta of resultado.respuestas" class="respuesta pl-3 mb-2">
+                        <p class="font-bold">{{ pregunta.texto }}</p>
+
+                        <ng-container [ngSwitch]="pregunta.tipo">
+                            <div *ngSwitchCase="'OPCION'">
+                                <div *ngFor="let opcion of pregunta.opciones; let j = index" class="mb-2">
+                                    <p-checkbox [binary]="true" [disabled]="true" [ngModel]="opcion.seleccionada"
+                                        [inputId]="'opcion-' + i + '-' + j">
+                                    </p-checkbox>
+                                    <label [for]="'opcion-' + i + '-' + j" class="ml-2">{{ opcion.texto }}</label>
+                                </div>
+                            </div>
+
+                            <div *ngSwitchCase="'ABIERTA'">
+                                <p class="italic">{{ pregunta.textoRespuesta }}</p>
+                            </div>
+
+                            <div *ngSwitchDefault>
+                                <em>Tipo de pregunta no soportado</em>
+                            </div>
+                        </ng-container>
+                    </div>
+                </p-accordionTab>
+            </p-accordion>
+        </div>
+
+        <div *ngSwitchDefault>
+            <p>Vista no reconocida.</p>
+        </div>
+    </ng-container>
+
+    <p-dialog [showHeader]="false" [(visible)]="mostrarDialogo" [modal]="true" [closable]="false"
+        [dismissableMask]="false" [draggable]="false" [resizable]="false">
+        <div class="text-center p-4">
+            <p class="text-xl font-semibold">Respuestas enviadas correctamente</p>
+            <p class="mt-4">Gracias por participar</p>
+        </div>
+    </p-dialog>
+</div>
