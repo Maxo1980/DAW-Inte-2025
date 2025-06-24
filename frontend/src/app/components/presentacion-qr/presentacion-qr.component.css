@@ -1,0 +1,9 @@
+.qr-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.descargar-btn {
+  margin-top: 1rem;
+}
