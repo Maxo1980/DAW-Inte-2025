@@ -19,6 +19,7 @@ export class PresentacionEnlacesComponent {
     @ViewChild('op') popover: any;
     enlaceRespuesta = '';
     enlaceResultados = '';
+    enlacePDF = ''; 
     mostrarPopover = false;
 
     constructor(private route: ActivatedRoute) {
@@ -29,6 +30,7 @@ export class PresentacionEnlacesComponent {
         if (id && codigoRespuesta && codigoResultados) {
             this.enlaceRespuesta = `http://localhost:4200/encuestas/${id}?codigo=${codigoRespuesta}&tipo=RESPUESTA`;
             this.enlaceResultados = `http://localhost:4200/encuestas/${id}?codigo=${codigoResultados}&tipo=RESULTADOS`;
+            this.enlacePDF =`http://localhost:3000/api/v1/encuestas/${id}/pdf?codigo=${codigoResultados}&tipo=RESULTADOS`;
         }
     }
 
@@ -44,5 +46,9 @@ export class PresentacionEnlacesComponent {
                 console.error('Error al copiar el texto', err);
             });
         }
+    }
+
+    descargarEncuesta(){
+        window.open(`${this.enlacePDF}`, '_blank');
     }
 }
