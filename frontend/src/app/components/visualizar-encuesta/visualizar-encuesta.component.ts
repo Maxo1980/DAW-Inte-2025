@@ -121,14 +121,23 @@ export class VisualizarEncuestaComponent implements OnInit {
         }));
     }
 
+    getSeleccionSimple(pregunta: any): string | null {
+        const seleccionada = pregunta.opciones?.find((o: any) => o.seleccionada);
+        return seleccionada?.texto ?? null;
+    }
+
     onCheckboxChange(preguntaIndex: number, opcionTexto: string, event: CheckboxChangeEvent) {
-        const respuestas = this.preguntas.at(preguntaIndex).get('respuesta')?.value || [];
-        const checked = event.checked as HTMLInputElement;
-        if (checked) {
-            this.preguntas.at(preguntaIndex).get('respuesta')?.setValue([...respuestas, opcionTexto]);
+        const control = this.preguntas.at(preguntaIndex).get('respuesta');
+        const respuestas = control?.value || []
+        if (!respuestas.includes(opcionTexto)) {
+            respuestas.push(opcionTexto);
         } else {
-            this.preguntas.at(preguntaIndex).get('respuesta')?.setValue(respuestas.filter((r: string) => r !== opcionTexto));
+            const index = respuestas.indexOf(opcionTexto);
+            respuestas.splice(index, 1);
         }
+
+        control?.setValue([...respuestas]);
+
     }
 
     confirmarRespuesta() {
@@ -151,7 +160,6 @@ export class VisualizarEncuestaComponent implements OnInit {
             },
         });
     }
-
 
     enviar() {
         if (this.formulario.invalid) {
@@ -189,6 +197,7 @@ export class VisualizarEncuestaComponent implements OnInit {
             idEncuesta: this.idEncuesta,
             respuestas,
         };
+
         this.encuestaService.contestarEncuesta(dto).subscribe({
             next: (res) => {
                 this.mostrarDialogo = true;

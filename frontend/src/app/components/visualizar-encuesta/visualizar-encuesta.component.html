@@ -1,7 +1,7 @@
 <div *ngIf="cargando">Cargando encuesta...</div>
 <div *ngIf="error" class="text-2xl pt-6">{{ error }}</div>
 
-<div *ngIf="!cargando && !error">
+<div *ngIf="!cargando && !error" style="padding-bottom: 30px;">
 
     <ng-container [ngSwitch]="tipoVista">
         <h1 class="text-3xl font-bold mb-4 mt-6 text-center">{{ nombreEncuesta }}</h1>
@@ -21,15 +21,15 @@
                         </div>
                         <div *ngSwitchCase="'OPCION_MULTIPLE_SELECCION_MULTIPLE'">
                             <div *ngFor="let opcion of pregunta.get('opciones')?.value; let j = index" class="mb-2">
-                                <p-checkbox value="New York" [inputId]="'checkbox-' + j"
+                                <p-checkbox [name]="pregunta.get('id')?.value" [value]="opcion.texto"
+                                    [inputId]="'checkbox-' + i + '-' + j"
                                     (onChange)="onCheckboxChange(i, opcion.texto, $event)" />
-                                <label [for]="'checkbox-' + j" class="ml-2">{{ opcion.texto }}</label>
-
+                                <label [for]="'chackbox-' + i + '-' + j" class="ml-2">{{ opcion.texto }}</label>
                             </div>
                         </div>
                         <div *ngSwitchCase="'ABIERTA'">
                             <textarea rows="5" cols="30" pTextarea formControlName="respuesta" variant="filled"
-                                autoResize="true"></textarea>
+                                autoResize="false" class="w-full h-40 overflow-y-auto resize-none"></textarea>
                         </div>
 
                         <div *ngSwitchDefault>
@@ -42,27 +42,34 @@
             <button pButton type="submit" label="Enviar respuestas" class="w-full mb-8"></button>
         </form>
 
-        <div *ngSwitchCase="'RESULTADOS'">
+        <div *ngSwitchCase="'RESULTADOS'" style="min-width: 30vw; margin: auto">
             <p class="text-2xl font-bold mb-4 text-center">Resultados de la encuesta:</p>
 
             <p-accordion>
                 <p-accordionTab *ngFor="let resultado of resultados; let i = index" [header]="'Respuesta #' + (i + 1)"
                     class="mb-2 border-1 border-solid rounded-lg">
-                    <div *ngFor="let pregunta of resultado.respuestas" class="respuesta pl-3 mb-2">
+                    <div *ngFor="let pregunta of resultado.respuestas" class="respuesta pl-3 pb-2 mb-2">
                         <p class="font-bold">{{ pregunta.texto }}</p>
 
                         <ng-container [ngSwitch]="pregunta.tipo">
-                            <div *ngSwitchCase="'OPCION'">
+                            <div *ngSwitchCase="'OPCION_MULTIPLE_SELECCION_SIMPLE'">
+                                <div *ngFor="let opcion of pregunta.opciones; let j = index" class="mb-2">
+                                    <p-radioButton [value]="opcion.texto" [inputId]="'radio-' + i + '-' + j"
+                                        [ngModel]="getSeleccionSimple(pregunta)" [disabled]="true"
+                                        name="pregunta-{{i}}"></p-radioButton>
+                                    <label [for]="'radio-' + i + '-' + j" class="ml-2">{{ opcion.texto }}</label>
+                                </div>
+                            </div>
+                            <div *ngSwitchCase="'OPCION_MULTIPLE_SELECCION_MULTIPLE'">
                                 <div *ngFor="let opcion of pregunta.opciones; let j = index" class="mb-2">
                                     <p-checkbox [binary]="true" [disabled]="true" [ngModel]="opcion.seleccionada"
-                                        [inputId]="'opcion-' + i + '-' + j">
-                                    </p-checkbox>
-                                    <label [for]="'opcion-' + i + '-' + j" class="ml-2">{{ opcion.texto }}</label>
+                                        [inputId]="'checkbox-' + i + '-' + j"></p-checkbox>
+                                    <label [for]="'checkbox-' + i + '-' + j" class="ml-2">{{ opcion.texto }}</label>
                                 </div>
                             </div>
 
                             <div *ngSwitchCase="'ABIERTA'">
-                                <p class="italic">{{ pregunta.textoRespuesta }}</p>
+                                <p style="font-style: italic;">{{ pregunta.textoRespuesta }}</p>
                             </div>
 
                             <div *ngSwitchDefault>

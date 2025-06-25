@@ -167,11 +167,13 @@ export class EncuestasService {
                             relations: ['pregunta'],
                         });
 
-                        const textoPregunta = todasOpciones[0]?.pregunta?.texto ?? '';
+                        const pregunta = todasOpciones[0]?.pregunta;
+                        const tipo = pregunta?.tipo ?? 'DESCONOCIDO';
+                        const textoPregunta = pregunta?.texto ?? '';
 
                         return {
                             idPregunta: idPreg,
-                            tipo: 'OPCION',
+                            tipo,
                             texto: textoPregunta,
                             opciones: todasOpciones.map((opt) => ({
                                 id: opt.id,
