@@ -6,11 +6,12 @@ import { RouterModule } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { TooltipModule } from 'primeng/tooltip';
 import { PopoverModule } from 'primeng/popover';
+import { PresentacionQRComponent } from '../presentacion-qr/presentacion-qr.component';
 
 @Component({
     selector: 'app-presentacion-enlaces',
     standalone: true,
-    imports: [CommonModule, CardModule, ButtonModule, RouterModule, TooltipModule, PopoverModule],
+    imports: [CommonModule, CardModule, ButtonModule, RouterModule, TooltipModule, PopoverModule,PresentacionQRComponent  ],
     templateUrl: './presentacion-enlaces.component.html',
     styleUrls: ['./presentacion-enlaces.component.css'],
 })
