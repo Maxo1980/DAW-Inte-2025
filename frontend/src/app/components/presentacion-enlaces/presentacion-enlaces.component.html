@@ -26,7 +26,11 @@
             <p id="link2" class="text-sm truncate flex-1">
                 {{ enlaceResultados }}
             </p>
-            <button pButton type="button" icon="pi pi-copy" (click)="copiarTexto('link2')"></button>
+            <button pButton type="button" icon="pi pi-copy" (click)="copiarTexto('link2'); op.toggle($event)"
+                pTooltip="Copiar enlace" tooltipPosition="bottom"></button>
+            <p-popover #op>
+                <p class="m-0">Enlace copiado!</p>
+            </p-popover>
         </div>
         <button pButton type="button" label="Volver al inicio" class="p-button-raised p-button-primary mt-4"
             style="align-self: start" [routerLink]="'/'"></button>
