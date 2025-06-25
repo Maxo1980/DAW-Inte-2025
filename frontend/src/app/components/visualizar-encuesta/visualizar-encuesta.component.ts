@@ -12,11 +12,13 @@ import { ContestarEncuestaDTO } from '../../interfaces/contestar-encuesta.dto';
 import { DialogModule } from 'primeng/dialog';
 import { AccordionModule } from 'primeng/accordion';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { EstadisticasComponent } from '../estadisticas/estadisticas.component';
+import { EstadisticaDTO } from '../../interfaces/chartdata.dto';
 
 @Component({
     selector: 'app-visualizar-encuesta',
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, ButtonModule, CardModule, FormsModule, RadioButtonModule, CheckboxModule, TextareaModule, DialogModule, AccordionModule],
+    imports: [CommonModule, ReactiveFormsModule, ButtonModule, CardModule, FormsModule, RadioButtonModule, CheckboxModule, TextareaModule, DialogModule, AccordionModule, EstadisticasComponent],
     templateUrl: './visualizar-encuesta.component.html',
     styleUrls: ['./visualizar-encuesta.component.css']
 })
@@ -35,6 +37,7 @@ export class VisualizarEncuestaComponent implements OnInit {
     idEncuesta!: number;
     mostrarDialogo = false;
     resultados: any[] = [];
+    estadisticas: EstadisticaDTO[] = [];
 
     ngOnInit() {
         this.formulario = this.fb.group({
