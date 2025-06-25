@@ -1,4 +1,4 @@
-<div class="items-center justify-content-center px-4 m-0">
+<div class="items-center justify-content-center px-4 m-0" style="padding-bottom: 30px;">
     <div style="width: 100%;">
         <h1 class="text-6xl text-center font-bold mb-3">¡Listo!</h1>
     </div>
@@ -11,7 +11,7 @@
     </div>
     <hr />
     <div class="text-center">
-        <p>Enlace para contestar encuesta. Compartilo con tus entrevistados:</p>
+        <p class="font-bold">Enlace para contestar encuesta. Compartilo con tus entrevistados:</p>
         <div class="copyText flex bg-gray-100 pl-3 mb-2 border-1 border-solid">
             <p id="link1" class="text-sm truncate flex-1">
                 {{ enlaceRespuesta }}
@@ -24,11 +24,11 @@
         </div>
 
         <div>
-            <p><strong>También puedes escanear este código QR:</strong></p>
+            <p>También podés escanear este código QR:</p>
             <app-presentacion-qr [value]="enlaceRespuesta"></app-presentacion-qr>
         </div>
-
-        <p>Enlace para ver las respuestas:</p>
+        <hr>
+        <p class="font-bold">Enlace para ver las respuestas:</p>
         <div class="copyText flex bg-gray-100 pl-3 mb-2 border-1 border-solid">
             <p id="link2" class="text-sm truncate flex-1">
                 {{ enlaceResultados }}
@@ -41,7 +41,7 @@
         </div>
 
         <div>
-            <p><strong>También puedes escanear este código QR:</strong></p>
+            <p>También puedes escanear este código QR:</p>
             <app-presentacion-qr [value]="enlaceResultados"></app-presentacion-qr>
         </div>
 
