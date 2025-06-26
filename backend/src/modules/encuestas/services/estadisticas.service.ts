@@ -12,7 +12,7 @@ Tengo estas respuestas a una misma pregunta de encuesta:
 
 ${respuestas.map((r, i) => `${i + 1}. ${r}`).join('\n')}
 
-Genera un resumen de los temas más mencionados. Luego, lista las palabras clave más frecuentes (máximo 10).
+Genera un resumen de los temas más mencionados. Luego, lista las palabras clave más frecuentes (máximo 5).
 Respuesta en formato JSON con esta estructura:
 {
   "resumen": "...",
