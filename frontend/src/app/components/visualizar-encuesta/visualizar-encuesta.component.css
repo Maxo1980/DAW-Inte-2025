@@ -5,3 +5,7 @@
 .respuesta:last-child {
     border-bottom: none;
 }
+
+.pregunta:first-child {
+    margin-top: 0;
+}

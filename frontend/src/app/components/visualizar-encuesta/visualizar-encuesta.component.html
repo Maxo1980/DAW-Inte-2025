@@ -4,12 +4,12 @@
 <div *ngIf="!cargando && !error" style="padding-bottom: 30px;">
 
     <ng-container [ngSwitch]="tipoVista">
-        <h1 class="text-3xl font-bold mb-4 mt-6 text-center">{{ nombreEncuesta }}</h1>
+        <h1 class="text-3xl font-bold my-6 text-center">{{ nombreEncuesta }}</h1>
         <form *ngSwitchCase="'RESPUESTA'" [formGroup]="formulario" (ngSubmit)="confirmarRespuesta()">
             <div formArrayName="preguntas" class="mb-3">
                 <div *ngFor="let pregunta of preguntas.controls; let i = index" [formGroupName]="i"
                     class="p-2 border rounded">
-                    <p class="font-bold">{{ pregunta.get('texto')?.value }}</p>
+                    <p class="font-bold pregunta">{{ pregunta.get('texto')?.value }}</p>
 
                     <ng-container [ngSwitch]="pregunta.get('tipo')?.value">
                         <div *ngSwitchCase="'OPCION_MULTIPLE_SELECCION_SIMPLE'">
@@ -41,48 +41,52 @@
             </div>
             <button pButton type="submit" label="Enviar respuestas" class="w-full mb-8"></button>
         </form>
+        <div *ngSwitchCase="'RESULTADOS'" class="grid justify-content-center gap-8 min-h-screen px-4 m-0"
+            style="margin: auto; min-width: 90vw">
+            <div class="col-12 md:col-4 flex flex-column">
 
-        <div *ngSwitchCase="'RESULTADOS'" style="min-width: 30vw; margin: auto">
-            <p class="text-2xl font-bold mb-4 text-center">Resultados de la encuesta:</p>
+                <p-accordion>
+                    <p-accordionTab *ngFor="let resultado of resultados; let i = index"
+                        [header]="'Respuesta #' + (i + 1)" class="mb-2 border-1 border-solid rounded-lg">
+                        <div *ngFor="let pregunta of resultado.respuestas" class="respuesta pl-3 pb-2 mb-2">
+                            <p class="font-bold">{{ pregunta.texto }}</p>
 
-            <p-accordion>
-                <p-accordionTab *ngFor="let resultado of resultados; let i = index" [header]="'Respuesta #' + (i + 1)"
-                    class="mb-2 border-1 border-solid rounded-lg">
-                    <div *ngFor="let pregunta of resultado.respuestas" class="respuesta pl-3 pb-2 mb-2">
-                        <p class="font-bold">{{ pregunta.texto }}</p>
-
-                        <ng-container [ngSwitch]="pregunta.tipo">
-                            <div *ngSwitchCase="'OPCION_MULTIPLE_SELECCION_SIMPLE'">
-                                <div *ngFor="let opcion of pregunta.opciones; let j = index" class="mb-2">
-                                    <p-radioButton [value]="opcion.texto" [inputId]="'radio-' + i + '-' + j"
-                                        [ngModel]="getSeleccionSimple(pregunta)" [disabled]="true"
-                                        name="pregunta-{{i}}"></p-radioButton>
-                                    <label [for]="'radio-' + i + '-' + j" class="ml-2">{{ opcion.texto }}</label>
+                            <ng-container [ngSwitch]="pregunta.tipo">
+                                <div *ngSwitchCase="'OPCION_MULTIPLE_SELECCION_SIMPLE'">
+                                    <div *ngFor="let opcion of pregunta.opciones; let j = index" class="mb-2">
+                                        <p-radioButton [value]="opcion.texto" [inputId]="'radio-' + i + '-' + j"
+                                            [ngModel]="getSeleccionSimple(pregunta)" [disabled]="true"
+                                            name="pregunta-{{i}}"></p-radioButton>
+                                        <label [for]="'radio-' + i + '-' + j" class="ml-2">{{ opcion.texto }}</label>
+                                    </div>
                                 </div>
-                            </div>
-                            <div *ngSwitchCase="'OPCION_MULTIPLE_SELECCION_MULTIPLE'">
-                                <div *ngFor="let opcion of pregunta.opciones; let j = index" class="mb-2">
-                                    <p-checkbox [binary]="true" [disabled]="true" [ngModel]="opcion.seleccionada"
-                                        [inputId]="'checkbox-' + i + '-' + j"></p-checkbox>
-                                    <label [for]="'checkbox-' + i + '-' + j" class="ml-2">{{ opcion.texto }}</label>
+                                <div *ngSwitchCase="'OPCION_MULTIPLE_SELECCION_MULTIPLE'">
+                                    <div *ngFor="let opcion of pregunta.opciones; let j = index" class="mb-2">
+                                        <p-checkbox [binary]="true" [disabled]="true" [ngModel]="opcion.seleccionada"
+                                            [inputId]="'checkbox-' + i + '-' + j"></p-checkbox>
+                                        <label [for]="'checkbox-' + i + '-' + j" class="ml-2">{{ opcion.texto }}</label>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div *ngSwitchCase="'ABIERTA'">
-                                <p style="font-style: italic;">{{ pregunta.textoRespuesta }}</p>
-                            </div>
+                                <div *ngSwitchCase="'ABIERTA'">
+                                    <p style="font-style: italic;">{{ pregunta.textoRespuesta }}</p>
+                                </div>
 
-                            <div *ngSwitchDefault>
-                                <em>Tipo de pregunta no soportado</em>
-                            </div>
-                        </ng-container>
-                    </div>
-                </p-accordionTab>
-            </p-accordion>
-        </div>
+                                <div *ngSwitchDefault>
+                                    <em>Tipo de pregunta no soportado</em>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </p-accordionTab>
+                </p-accordion>
+            </div>
+            <div class="col-12 md:col-6 flex flex-column">
+                <app-estadisticas [resultados]="resultados"></app-estadisticas>
+            </div>
 
-        <div *ngSwitchDefault>
-            <p>Vista no reconocida.</p>
+            <div *ngSwitchDefault>
+                <p>Vista no reconocida.</p>
+            </div>
         </div>
     </ng-container>
 
