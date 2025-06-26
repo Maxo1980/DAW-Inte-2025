@@ -17,6 +17,10 @@
                                 <p-radioButton [inputId]="'radio-' + i + '-' + j" [name]="'respuesta'"
                                     [value]="opcion.texto" formControlName="respuesta"></p-radioButton>
                                 <label [for]="'radio-' + i + '-' + j" class="ml-2">{{ opcion.texto }}</label>
+                                <div *ngIf="pregunta.get('respuesta')?.invalid && pregunta.get('respuesta')?.touched"
+                                    class="text-red-500 text-sm">
+                                    Debe seleccionar una opción.
+                                </div>
                             </div>
                         </div>
                         <div *ngSwitchCase="'OPCION_MULTIPLE_SELECCION_MULTIPLE'">
@@ -25,11 +29,19 @@
                                     [inputId]="'checkbox-' + i + '-' + j"
                                     (onChange)="onCheckboxChange(i, opcion.texto, $event)" />
                                 <label [for]="'chackbox-' + i + '-' + j" class="ml-2">{{ opcion.texto }}</label>
+                                <div *ngIf="pregunta.get('respuesta')?.invalid && pregunta.get('respuesta')?.touched"
+                                    class="text-red-500 text-sm">
+                                    Debe seleccionar una opción.
+                                </div>
                             </div>
                         </div>
                         <div *ngSwitchCase="'ABIERTA'">
                             <textarea rows="5" cols="30" pTextarea formControlName="respuesta" variant="filled"
                                 autoResize="false" class="w-full h-40 overflow-y-auto resize-none"></textarea>
+                            <div *ngIf="pregunta.get('respuesta')?.invalid && pregunta.get('respuesta')?.touched"
+                                class="text-red-500 text-sm">
+                                Este campo es obligatorio.
+                            </div>
                         </div>
 
                         <div *ngSwitchDefault>

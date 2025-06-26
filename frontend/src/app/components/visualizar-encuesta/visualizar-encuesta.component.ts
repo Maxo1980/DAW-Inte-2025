@@ -105,7 +105,7 @@ export class VisualizarEncuestaComponent implements OnInit {
                 id: [preg.id],
                 texto: [preg.texto, Validators.required],
                 tipo: [preg.tipo, Validators.required],
-                respuesta: [''],
+                respuesta: ['', Validators.required],
                 opciones: [preg.opciones || []],
             });
             this.preguntas.push(grupoPregunta);

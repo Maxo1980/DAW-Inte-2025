@@ -16,3 +16,9 @@
     text-overflow: ellipsis;
     max-width: 100%;
 }
+
+@media (max-width: 640px) {
+    .copyText {
+        max-width: 400px;
+    }
+}
