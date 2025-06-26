@@ -1,23 +1,45 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
-import { EstadisticaDTO } from '../../interfaces/chartdata.dto';
+import { EstadisticaDTO, ResumenAbiertasDTO } from '../../interfaces/estadisticas.dto';
+import { EstadisticasService } from '../../services/estadisticas.service';
+import { ChipModule } from 'primeng/chip';
 
 @Component({
     selector: 'app-estadisticas',
     standalone: true,
-    imports: [CommonModule, ChartModule],
+    imports: [CommonModule, ChartModule, ChipModule],
     templateUrl: './estadisticas.component.html',
 })
+
 export class EstadisticasComponent implements OnChanges {
+    constructor(private estadisticasService: EstadisticasService) { }
 
     @Input() resultados: any[] = [];
 
     estadisticas: EstadisticaDTO[] = [];
+    resumenAbiertas?: ResumenAbiertasDTO;
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes['resultados'] && this.resultados.length > 0) {
             this.estadisticas = this.generarEstadisticasDesdeResultados(this.resultados);
+            const respuestasAbiertas = this.resultados.flatMap(res =>
+                res.respuestas
+                    .filter((r: any) => r.tipo === 'ABIERTA' && r.textoRespuesta?.trim())
+                    .map((r: any) => r.textoRespuesta.trim())
+            );
+
+            if (respuestasAbiertas.length) {
+                this.estadisticasService.obtenerResumenYPalabras(respuestasAbiertas).subscribe(result => {
+                    this.resumenAbiertas = {
+                        pregunta: 'Resumen de respuestas abiertas',
+                        resumen: result.resumen,
+                        palabrasClave: result.palabrasClave
+                    };
+                });
+            } else {
+                this.resumenAbiertas = undefined;
+            }
         }
     }
 
@@ -96,10 +118,6 @@ export class EstadisticasComponent implements OnChanges {
                 });
 
             }
-
-            // if (tipo === 'ABIERTA') {
-
-            // }
         }
 
         return estadisticas;

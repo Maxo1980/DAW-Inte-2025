@@ -13,7 +13,7 @@ import { DialogModule } from 'primeng/dialog';
 import { AccordionModule } from 'primeng/accordion';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { EstadisticasComponent } from '../estadisticas/estadisticas.component';
-import { EstadisticaDTO } from '../../interfaces/chartdata.dto';
+import { EstadisticaDTO } from '../../interfaces/estadisticas.dto';
 
 @Component({
     selector: 'app-visualizar-encuesta',

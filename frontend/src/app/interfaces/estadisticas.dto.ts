@@ -11,3 +11,9 @@ export interface EstadisticaDTO {
     chartData: ChartDataDTO;
     chartType: string;
 }
+
+export interface ResumenAbiertasDTO {
+    pregunta: string;
+    resumen: string;
+    palabrasClave: string[];
+}
