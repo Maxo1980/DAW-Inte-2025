@@ -69,14 +69,31 @@ export class EstadisticasComponent implements OnChanges {
                     }
                 });
 
+                const opciones = Object.keys(conteo);
+                const values = Object.values(conteo);
+                const total = values.reduce((sum, val) => sum + val, 0);
+                const labels = opciones.map((opcion, idx) => {
+                    const porcentaje = ((values[idx] / total) * 100).toFixed(1);
+                    return `${opcion} (${porcentaje}%)`;
+                });
+                console.log(conteo)
                 estadisticas.push({
                     pregunta: texto,
                     chartData: {
-                        labels: Object.keys(conteo),
+                        labels: labels,
                         datasets: [
                             {
+                                label: 'Votos',
                                 data: Object.values(conteo),
-                                backgroundColor: ['#60a5fa', '#34d399', '#f87171', '#fbbf24', '#a78bfa']
+                                backgroundColor: [
+                                    'rgb(255, 99, 132)',
+                                    'rgb(75, 192, 192)',
+                                    'rgb(153, 102, 255)',
+                                    'rgb(255, 159, 64)',
+                                    'rgb(54, 162, 235)',
+                                    'rgb(255, 205, 86)',
+                                    'rgb(201, 203, 207)'
+                                ],
                             }
                         ]
                     },
@@ -102,15 +119,30 @@ export class EstadisticasComponent implements OnChanges {
                     });
                 });
 
+                const opciones = Object.keys(conteo);
+                const values = Object.values(conteo);
+                const total = values.reduce((sum, val) => sum + val, 0);
+                const labels = opciones.map((opcion, idx) => {
+                    const porcentaje = ((values[idx] / total) * 100).toFixed(1);
+                    return `${opcion} (${porcentaje}%)`;
+                });
                 estadisticas.push({
                     pregunta: texto,
                     chartData: {
-                        labels: Object.keys(conteo),
+                        labels: labels,
                         datasets: [
                             {
                                 label: 'Cantidad de selecciones',
                                 data: Object.values(conteo),
-                                backgroundColor: ['#60a5fa', '#34d399', '#f87171', '#fbbf24', '#a78bfa']
+                                backgroundColor: [
+                                    'rgb(255, 99, 132)',
+                                    'rgb(75, 192, 192)',
+                                    'rgb(153, 102, 255)',
+                                    'rgb(255, 159, 64)',
+                                    'rgb(54, 162, 235)',
+                                    'rgb(255, 205, 86)',
+                                    'rgb(201, 203, 207)'
+                                ],
                             }
                         ]
                     },
@@ -119,7 +151,6 @@ export class EstadisticasComponent implements OnChanges {
 
             }
         }
-
         return estadisticas;
     }
 }
